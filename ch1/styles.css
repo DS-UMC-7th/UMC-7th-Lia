@@ -57,3 +57,13 @@ h3 {
     background-color: #b9b9b9;
     margin: 20px 0; 
 }
+
+.task-item {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
+}
+
