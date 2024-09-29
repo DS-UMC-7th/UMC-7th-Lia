@@ -4,13 +4,11 @@ body {
 }
 
 .container {
-    width: 70%;
+    width: 50%;
     margin: 50px auto;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     background-color:#ccdcf1;
-    border-radius: 10px;
-
 }
 
 h1 {
@@ -59,11 +57,47 @@ h3 {
 }
 
 .task-item {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color:#ccdcf1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양쪽 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+
+
+
+.task-item button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
     border-radius: 5px;
-    padding: 10px;
-    margin: 5px 0;
+    background-color: #b6d0f3;
+    color: black;
+    cursor: pointer;
     transition: background-color 0.3s;
 }
 
+.task-item button:hover {
+    background-color:#b6d0f3;
+}
+
+.delete-button {
+    background-color:#b6d0f3;
+}
+
+.delete-button:hover {
+    background-color: #ccdcf1;
+}
+
+#todo-list, .done-section ul {
+    
+    padding: 0;
+    margin: 0; 
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+ 
+}
