@@ -28,6 +28,7 @@ document.getElementById('task-input').addEventListener('keypress', function(even
                 doneItem.textContent = taskValue;
                 doneItem.classList.add('task-item');
 
+                
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = '삭제';
                 deleteButton.classList.add('delete-button');
