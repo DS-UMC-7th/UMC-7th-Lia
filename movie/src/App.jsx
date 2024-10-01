@@ -1,12 +1,15 @@
 import './App.css'
 
-function App() {
+import React from 'react';
+import MoviesList from './components/MoviesList';
 
+const App = () => {
   return (
-    <>
-     <h1>Hello React</h1>
-    </>
-  )
-}
+    <div>
+      <MoviesList />
+    </div>
+  );
+};
 
-export default App
+export default App;
+
