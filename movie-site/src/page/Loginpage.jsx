@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Container = styled.h1`
   color:white;
     margin-top:5px;
+    padding: 5px;
 `;
 
 const Loginpage = () => {

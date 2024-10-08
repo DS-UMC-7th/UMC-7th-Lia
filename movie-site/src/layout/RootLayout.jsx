@@ -27,7 +27,7 @@ const StyledSidebar = styled(Sidebar)`
 // 콘텐츠 영역
 const MainContent = styled.div`
   flex: 1; 
-  padding: 10px; 
+  padding: 5px; 
   overflow-y: auto; 
 `;
 

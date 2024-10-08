@@ -7,7 +7,13 @@ import popularImage from '../images/popular.jpg';
 import ratedImage from '../images/rated.jpg';
 import upcomingImage from '../images/upcoming.jpg';
 
-// 카테고리 페이지의 제목 스타일
+// 제목 스타일을 위한 컴포넌트
+const Title = styled.h1`
+  color: white;
+  margin-top: 5px; 
+  padding: 5px;
+`;
+
 const Container = styled.div`
   color: white;
   padding: 5px;
@@ -67,7 +73,7 @@ const Moviespage = () => {
 
   return (
     <Container>
-      <h1>카테고리</h1>
+      <Title>카테고리</Title> {/* 수정된 제목 컴포넌트 사용 */}
       <CategoryGrid>
         {categories.map((category, index) => (
           <CategoryCard key={index}>
