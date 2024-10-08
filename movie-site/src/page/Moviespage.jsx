@@ -1,13 +1,42 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link} from 'react-router-dom'; 
 
-// 이미지 파일을 직접 import
 import currentImage from '../images/current.jpg';
 import popularImage from '../images/popular.jpg';
 import ratedImage from '../images/rated.jpg';
 import upcomingImage from '../images/upcoming.jpg';
 
-// 제목 스타일을 위한 컴포넌트
+
+const MoviesPage = () => {
+  const categories = [
+    { title: "현재 상영중인", image: currentImage, path: "now-playing" },
+    { title: "인기있는", image: popularImage, path: "popular" },
+    { title: "높은 평가를 받은", image: ratedImage, path: "top-rated" },
+    { title: "개봉 예정작", image: upcomingImage, path: "up-coming" }
+  ];
+
+  return (
+    <Container>
+      <Title>카테고리</Title>
+      <CategoryGrid>
+        {categories.map((category, index) => (
+          <Link key={index} to={category.path}>
+            <CategoryCard>
+              <CardImage src={category.image} alt={category.title} />
+              <CardTitle>{category.title}</CardTitle>
+            </CategoryCard>
+          </Link>
+        ))}
+      </CategoryGrid>
+    </Container>
+  );
+
+
+
+  
+};
+
 const Title = styled.h1`
   color: white;
   margin-top: 5px; 
@@ -19,7 +48,6 @@ const Container = styled.div`
   padding: 5px;
 `;
 
-// 카테고리 그리드 스타일
 const CategoryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -29,13 +57,13 @@ const CategoryGrid = styled.div`
   color: white;
 `;
 
-// 카테고리 카드 스타일
 const CategoryCard = styled.div`
   position: relative;
   background-color: #333;
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
+  text-decoration: none; /* 링크의 기본 밑줄 제거 */
 
   &:hover {
     background-color: #555; 
@@ -43,14 +71,12 @@ const CategoryCard = styled.div`
   }
 `;
 
-// 카드의 이미지가 꽉 차게 설정
 const CardImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
 `;
 
-// 텍스트를 카드의 왼쪽 하단에 배치
 const CardTitle = styled.div`
   position: absolute;
   bottom: 10px;
@@ -62,28 +88,4 @@ const CardTitle = styled.div`
   border-radius: 5px;
 `;
 
-const Moviespage = () => {
-  // 영화 카테고리 데이터 (이미지 import 포함)
-  const categories = [
-    { title: "현재 상영중인", image: currentImage },
-    { title: "인기있는", image: popularImage },
-    { title: "높은 평가를 받은", image: ratedImage },
-    { title: "개봉 예정작", image: upcomingImage }
-  ];
-
-  return (
-    <Container>
-      <Title>카테고리</Title> {/* 수정된 제목 컴포넌트 사용 */}
-      <CategoryGrid>
-        {categories.map((category, index) => (
-          <CategoryCard key={index}>
-            <CardImage src={category.image} alt={category.title} />
-            <CardTitle>{category.title}</CardTitle>
-          </CategoryCard>
-        ))}
-      </CategoryGrid>
-    </Container>
-  );
-};
-
-export default Moviespage;
+export default MoviesPage;
