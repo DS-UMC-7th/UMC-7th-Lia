@@ -11,6 +11,7 @@ import Popular from './page/Popular.jsx'; // 인기 있는 영화 페이지
 import TopRated from './page/TopRated.jsx'; // 높은 평가를 받은 영화 페이지
 import UpComing from './page/UpComing.jsx'; // 개봉 예정작 페이지
 import MoviesPage from "./page/Moviespage.jsx";
+import MovieDetail from './page/MoviesDetail.jsx';
 
 
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: 'movies/up-coming',
         element: <UpComing />
+      },
+      {
+        path: 'movies/:movieId', 
+        element: <MovieDetail /> 
       },
       {
         path: 'login',

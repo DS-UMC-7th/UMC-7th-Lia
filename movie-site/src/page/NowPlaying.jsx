@@ -7,8 +7,6 @@ const NowPlaying = () => {
         `/movie/now_playing?language=ko-KR&page=1`
     );
 
-    console.log(movies);
-
     if (isLoading) {
         return <h1 style={{ color: 'white' }}>로딩중입니다..</h1>;
     }
@@ -18,6 +16,7 @@ const NowPlaying = () => {
     }
 
     return <MovieList movies={movies} />;
+
 };
 
 export default NowPlaying;
