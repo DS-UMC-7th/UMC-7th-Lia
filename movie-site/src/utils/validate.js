@@ -1,4 +1,4 @@
-const emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; 
+const emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; 
 
 function validateUser(values) { 
     const errors = {
@@ -8,7 +8,7 @@ function validateUser(values) {
 
     if (!values.email) {
         errors.email = '이메일은 필수 입력 사항입니다.';
-    } else if (!emailPattern.test(values.email)) {
+    } else if (emailPattern.test(values.email) === false) {
         errors.email = '올바른 이메일 형식이 아닙니다. 다시 확인해주세요!';
     }
 

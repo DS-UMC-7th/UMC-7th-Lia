@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function useForm(initialValue, validate) {
+function useForm({ initialValue = {}, validate }) { // 기본값 추가
     const [values, setValues] = useState(initialValue);
     const [touched, setTouched] = useState({});
     const [errors, setErrors] = useState({});
@@ -18,6 +18,7 @@ function useForm(initialValue, validate) {
             ...touched, 
             [name]: true,
         });
+        
     };
 
     const getTextInputProps = (name) => {
@@ -25,7 +26,7 @@ function useForm(initialValue, validate) {
         const onChange = (event) => handleChangeInput(name, event.target.value);
         const onBlur = () => handleBlur(name);
 
-        return { value, onChange, onBlur };
+        return { value, onChange, onBlur }
     };
 
 
