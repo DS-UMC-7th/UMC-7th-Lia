@@ -20,6 +20,7 @@ const Loginpage = () => {
     e.preventDefault();
     console.log(login.values.email, login.values.password)
   }
+
   
   return (
     <Container>
@@ -34,7 +35,7 @@ const Loginpage = () => {
     placeholder='비밀번호를 입력해주세요!' {...login.getTextInputProps('password')}/>
     {login.touched.password && login.errors.password && <ErrorText>{login.errors.password}</ErrorText>}
 
-    <LoginButton onClick={handlePressLogin} >로그인</LoginButton>
+    <LoginButton onClick={handlePressLogin}>로그인</LoginButton>
     </Form>
   </Container>
   );
@@ -74,9 +75,9 @@ const LoginButton = styled.button`
    margin:10px 0;
   border-radius: 10px;
   width: 420px; 
-  background-color: ${props => (props.disabled ? 'gray' : '#c4006a')};
   color: white;
   border: none;
+  background-color: ${props => (props.disabled ? 'gray' : '#c4006a')};w3
 
   &:hover {
     background-color: ${props => (props.disabled ? 'gray' : '#000080')};
