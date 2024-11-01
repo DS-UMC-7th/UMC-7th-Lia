@@ -72,15 +72,15 @@ const Input = styled.input`
 
 const LoginButton = styled.button` 
   padding: 10px;  
-   margin:10px 0;
+  margin: 10px 0;
   border-radius: 10px;
   width: 420px; 
   color: white;
   border: none;
-  background-color: ${props => (props.disabled ? 'gray' : '#c4006a')};w3
+  background-color: #c4006a;
 
   &:hover {
-    background-color: ${props => (props.disabled ? 'gray' : '#000080')};
+    background-color: #000080;
     color: #fff;
   }
 `;

@@ -1,5 +1,5 @@
 //실습1.ver
-const Container = styled.div`
+/*const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,7 +54,7 @@ const Loginpage_1 = () => {
 
   return (
     <Container>
-      <h3>로그인</h3>
+      <h3>로그인(실습1)</h3>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input 
           type='email' 
@@ -76,4 +76,4 @@ const Loginpage_1 = () => {
   );
 };
 
-export default Loginpage_1;
+export default Loginpage_1;*/

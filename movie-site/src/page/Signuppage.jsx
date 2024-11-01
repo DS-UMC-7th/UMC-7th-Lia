@@ -26,7 +26,7 @@ const StyledInput = styled.input`
   border-radius: 10px;
   width: 400px;  
   background-color: white;
-  margin-bottom: 8px;
+  margin:10px 0;
 `;
 
 const LoginButton = styled.input`
@@ -45,7 +45,7 @@ const LoginButton = styled.input`
 const Input = ({ type, placeholder, register, name, error }) => (
   <>
     <StyledInput type={type} placeholder={placeholder} {...register(name)} />
-    {error && <p style={{ color: 'red' }}>{error.message}</p>}
+    {error && <p style={{ color: 'red', fontSize: '12px' }}>{error.message}</p>}
   </>
 );
 
@@ -60,12 +60,12 @@ const Signuppage = () => {
       .min(8, '비밀번호는 8자 이상이어야 합니다.')
       .max(16, '비밀번호는 16자 이하여야 합니다.')
       .required('비밀번호는 필수 입력요소입니다.'),
-      passwordCheck: yup
+    passwordCheck: yup
       .string()
       .oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
       .required('비밀번호 검증 또한 필수요소입니다.'),
   });
-
+  
   const {
     register,
     handleSubmit,
@@ -105,7 +105,7 @@ const Signuppage = () => {
         />
 
         <Input
-          type="passwordCheck"
+          type="password"
           placeholder="비밀번호를 다시 입력해주세요!"
           register={register}
           name="passwordCheck"
