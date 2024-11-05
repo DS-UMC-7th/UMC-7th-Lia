@@ -12,7 +12,7 @@ import TopRated from './page/TopRated.jsx'; // 높은 평가를 받은 영화 �
 import UpComing from './page/UpComing.jsx'; // 개봉 예정작 페이지
 import MoviesPage from "./page/Moviespage.jsx";
 import MovieDetail from './page/MoviesDetail.jsx';
-
+import { AuthProvider } from './context/AuthContext';
 
 
 const router = createBrowserRouter([
@@ -65,9 +65,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider> {/* AuthProvider로 감싸기 */}
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;
