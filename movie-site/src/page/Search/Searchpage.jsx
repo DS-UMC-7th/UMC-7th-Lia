@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './Searchpage.style.js';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import useCustomFetch from '../../hooks/useCustomFetch.js';
-import MovieList from "../../components/MovieList.jsx";
+import SearchMovieList from '../../components/movie/search-movie-list.jsx';
 
 const Searchpage = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -29,13 +28,6 @@ const Searchpage = () => {
     }
   }
 
-  const url = `/search/movie?query=${searchValue}&include_adult=false&language=ko-KR&page=1`;
-
-
-  const {data:movies,isLoading,isError} = useCustomFetch(url);
-
-  console.log(movies);
-
   
   return (
     <>
@@ -49,7 +41,7 @@ const Searchpage = () => {
         <button onClick={handleSearchMovie}>검색</button>
       </S.Container>
       <div>
-      <MovieList movies={movies} />
+      <SearchMovieList />
       </div>
     </>
   );

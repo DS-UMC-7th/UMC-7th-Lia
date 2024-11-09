@@ -72,8 +72,12 @@ const MovieContainer = styled.li`
   width: 100%;
 `;
 
+
 const MoviePoster = styled.img`
-  width: 100%;
+  width: 140px;
+  height: 210px; 
+  object-fit: cover;
+  border-radius: 8px;
 `;
 
 const Overlay = styled.div`
