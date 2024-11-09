@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import NotFound from "./page/NotFound.jsx";
-import Searchpage from "./page/Searchpage.jsx"; 
+import Searchpage from "./page/Search/Searchpage.jsx"; 
 import Signuppage from "./page/Signuppage.jsx"; 
 import Loginpage from "./page/Loginpage.jsx"; 
 import RootLayout from "./layout/RootLayout.jsx";
@@ -13,6 +13,7 @@ import UpComing from './page/UpComing.jsx'; // 개봉 예정작 페이지
 import MoviesPage from "./page/Moviespage.jsx";
 import MovieDetail from './page/MoviesDetail.jsx';
 import { AuthProvider } from './context/AuthContext';
+
 
 
 const router = createBrowserRouter([

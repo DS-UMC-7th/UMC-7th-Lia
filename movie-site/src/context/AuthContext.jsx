@@ -8,26 +8,23 @@ export const AuthProvider = ({ children }) => {
   const login = async (userInfo) => {
     if (userInfo && userInfo.accessToken && userInfo.refreshToken) {
       setUser(userInfo);
-      // Access Token과 Refresh Token을 로컬 스토리지에 저장
       localStorage.setItem('accessToken', userInfo.accessToken);
       localStorage.setItem('refreshToken', userInfo.refreshToken);
-  
-      // 유저 정보를 추가로 가져오는 API 호출
+
       try {
         const response = await fetch('http://localhost:3000/user/me', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${userInfo.accessToken}`, // 로그인 시 받은 accessToken 사용
+            'Authorization': `Bearer ${userInfo.accessToken}`,
           },
         });
-  
+
         if (!response.ok) {
           throw new Error('유저 정보를 불러오는 데 실패했습니다.');
         }
-  
+
         const userData = await response.json();
-        setUser(userData); // 유저 정보 업데이트
-  
+        setUser(userData);
       } catch (error) {
         console.error('Error fetching user data after login:', error);
       }
@@ -35,7 +32,6 @@ export const AuthProvider = ({ children }) => {
       console.error('로그인 정보가 유효하지 않습니다.');
     }
   };
-  
 
   const logout = () => {
     setUser(null);
@@ -46,7 +42,9 @@ export const AuthProvider = ({ children }) => {
   const refreshAccessToken = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
     if (!refreshToken) {
-      throw new Error('Refresh token is missing');
+      console.error('Refresh token is missing');
+      logout();
+      return;
     }
 
     try {
@@ -66,13 +64,12 @@ export const AuthProvider = ({ children }) => {
       const result = await response.json();
       setUser((prevUser) => ({
         ...prevUser,
-        accessToken: result.accessToken, // 새로운 accessToken 업데이트
+        accessToken: result.accessToken,
       }));
-      // 새로운 Access Token을 로컬 스토리지에 저장
       localStorage.setItem('accessToken', result.accessToken);
     } catch (error) {
       console.error('토큰 재발급 에러:', error);
-      throw error;
+      logout(); // 토큰 재발급 실패 시 로그아웃 처리
     }
   };
 

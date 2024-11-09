@@ -63,7 +63,7 @@ const Date = styled.p`
 
 const MoviesGrid = styled.ul`
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
   padding: 20px;
   list-style: none;
