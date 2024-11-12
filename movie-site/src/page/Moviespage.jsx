@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link} from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 
 import currentImage from '../images/current.jpg';
 import popularImage from '../images/popular.jpg';
 import ratedImage from '../images/rated.jpg';
 import upcomingImage from '../images/upcoming.jpg';
-
 
 const MoviesPage = () => {
   const categories = [
@@ -23,7 +22,7 @@ const MoviesPage = () => {
         {categories.map((category, index) => (
           <Link key={index} to={category.path}>
             <CategoryCard>
-              <CardImage src={category.image} alt={category.title} />
+              <ImageWithLoader src={category.image} alt={category.title} />
               <CardTitle>{category.title}</CardTitle>
             </CategoryCard>
           </Link>
@@ -31,15 +30,27 @@ const MoviesPage = () => {
       </CategoryGrid>
     </Container>
   );
+};
 
+const ImageWithLoader = ({ src, alt }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
 
-
-  
+  return (
+    <ImageWrapper>
+      {/* 이미지를 로드하기 전에는 투명하게 유지 */}
+      <CardImage
+        src={src}
+        alt={alt}
+        isLoaded={isLoaded}
+        onLoad={() => setIsLoaded(true)} // 이미지가 로드되면 상태 업데이트
+      />
+    </ImageWrapper>
+  );
 };
 
 const Title = styled.h1`
   color: white;
-  margin-top: 5px; 
+  margin-top: 5px;
   padding: 5px;
 `;
 
@@ -63,18 +74,26 @@ const CategoryCard = styled.div`
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
-  text-decoration: none; /* 링크의 기본 밑줄 제거 */
+  text-decoration: none;
 
   &:hover {
-    background-color: #555; 
+    background-color: #555;
     transform: scale(1.05);
   }
+`;
+
+const ImageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
 `;
 
 const CardImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: ${({ isLoaded }) => (isLoaded ? 1 : 0.5)}; // 로드 상태에 따라 투명도 조절
+  transition: opacity 0.5s ease-in-out; // 부드러운 전환 효과
 `;
 
 const CardTitle = styled.div`
@@ -83,7 +102,7 @@ const CardTitle = styled.div`
   left: 10px;
   color: white;
   font-size: 18px;
-  background-color: rgba(0, 0, 0, 0.6); 
+  background-color: rgba(0, 0, 0, 0.6);
   padding: 5px 10px;
   border-radius: 5px;
 `;
