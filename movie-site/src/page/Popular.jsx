@@ -1,24 +1,30 @@
 import CardListSkeleton from "../components/Skeleton/card-list-skeleton.jsx";
 import MovieList from "../components/MovieList.jsx";
-import useCustomFetch from "../hooks/useCustomFetch.js";
+import React from "react";
 import * as S from "../components/Skeleton/card-skeleton-style";
+import { useQuery } from "@tanstack/react-query";
+import { useGetMovies } from "../hooks/queries/useGetMovies";
 
 const Popular = () => {
-  const { data: movies, isLoading, isError } = useCustomFetch(`/movie/popular?language=ko-KR&page=1`);
+  const { data: movies, isPending, isError } = useQuery({
+    queryKey: ['movies', 'popular', 1],
+    queryFn: () => useGetMovies({ category: 'popular', pageParam: 1 }),
+    cacheTime:10000,
+    staleTime:10000,
+});
 
-  if(isLoading) {
+  if(isPending) {
     return <S.Container>
         <CardListSkeleton num={20}/>
     </S.Container>
   }
 
   if (isError) {
-    // 에러 발생 시 에러 메시지를 보여줌
     return <h1 style={{ color: 'white' }}>에러가 발생했습니다.</h1>;
   }
 
-  // 데이터가 로드되었을 때 MovieList 컴포넌트를 보여줌
-  return <MovieList movies={movies} />;
+
+  return <MovieList movies={movies?.results || []} />;
 };
 
 export default Popular;

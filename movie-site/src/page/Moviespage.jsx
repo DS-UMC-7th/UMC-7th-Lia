@@ -37,12 +37,11 @@ const ImageWithLoader = ({ src, alt }) => {
 
   return (
     <ImageWrapper>
-      {/* 이미지를 로드하기 전에는 투명하게 유지 */}
       <CardImage
         src={src}
         alt={alt}
         isLoaded={isLoaded}
-        onLoad={() => setIsLoaded(true)} // 이미지가 로드되면 상태 업데이트
+        onLoad={() => setIsLoaded(true)}
       />
     </ImageWrapper>
   );
@@ -88,13 +87,16 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const CardImage = styled.img`
+const CardImage = styled.img.withConfig({
+  shouldForwardProp: (prop) => prop !== "isLoaded",
+})`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: ${({ isLoaded }) => (isLoaded ? 1 : 0.5)}; // 로드 상태에 따라 투명도 조절
-  transition: opacity 0.5s ease-in-out; // 부드러운 전환 효과
+  opacity: ${(props) => (props.isLoaded ? 1 : 0)}; // 로드 여부에 따라 불투명도 조정
+  transition: opacity 0.5s ease-in-out;
 `;
+
 
 const CardTitle = styled.div`
   position: absolute;
