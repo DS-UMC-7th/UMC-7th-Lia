@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useGetMovies } from "../hooks/queries/useGetMovies";
+import { getMovies } from "../hooks/queries/useGetMovies";
 
 const InfoContainer = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const InfoDetail = () => {
 
   const { data: movie, isLoading, isError } = useQuery({
     queryKey: ['movie', movieId],
-    queryFn: () => useGetMovies({ category: movieId, pageParam: 1 }), 
+    queryFn: () => getMovies({ category: movieId, pageParam: 1 }), 
     cacheTime: 10000,
     staleTime: 10000,
   });

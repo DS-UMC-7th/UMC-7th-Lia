@@ -25,6 +25,7 @@ const Container = styled.div`
     justify-content: center; 
     padding: 20px;
 `;
+
 const CardMain=styled.div`
     width: 140px;
   height: 210px; 

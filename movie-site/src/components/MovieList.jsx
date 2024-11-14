@@ -15,10 +15,16 @@ const MovieList = ({ movies }) => {
       {movies.map(movie => (
         <MovieContainer key={movie.id}>
           <MovieItem onClick={() => handleMovieClick(movie.id)}>
-            <MoviePoster 
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
-              alt={movie.title} 
-            />
+          {movie.poster_path ? (
+              <MoviePoster
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+              />
+            ) : (
+              <NoImage>
+                이미지 없음
+              </NoImage>
+            )}
             <Overlay />
           </MovieItem>
           <Content>
@@ -32,9 +38,32 @@ const MovieList = ({ movies }) => {
 };
 
 const Content = styled.div`
-  color: white; 
-  padding: 10px; 
+  color: white;
+  padding: 10px;
+  height: 50px; 
+  display: flex;
+  flex-direction: column; 
+  gap: 5px; 
+  overflow: hidden; 
 `;
+
+const Title = styled.p`
+  margin: 0;
+  font-size: 13px;
+  word-wrap: break-word; 
+  max-width: 140px;
+  max-height:20px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+`;
+
+const Date = styled.p`
+  margin: 0;
+  font-size: 11px; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+`;
+
 
 const MovieItem = styled.div`
   position: relative;
@@ -51,15 +80,7 @@ const MovieItem = styled.div`
   }
 `;
 
-const Title = styled.p`
-  margin: 0; 
-  font-size: 13px; 
-`;
 
-const Date = styled.p`
-  margin: 0; 
-  font-size: 10px; 
-`;
 
 const MoviesGrid = styled.ul`
   display: grid;
@@ -74,6 +95,7 @@ const MovieContainer = styled.li`
   flex-direction: column; 
   position: relative;
   width: 100%;
+
 `;
 
 const MoviePoster = styled.img`
@@ -95,6 +117,19 @@ const Overlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.2s ease-in-out; 
+`;
+
+const NoImage = styled.div`
+  width: 140px;
+  height: 210px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333; 
+  color: #fff; /* 텍스트 색상 */
+  font-size: 12px;
+  border-radius: 8px;
+  text-align: center;
 `;
 
 export default MovieList;

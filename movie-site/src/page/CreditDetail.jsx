@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
-import { useGetMovies } from "../hooks/queries/useGetMovies";
+import { getMovies } from "../hooks/queries/useGetMovies";
 
 const CreditsContainer = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ const CreditDetail = () => {
   // React Query를 활용한 데이터 가져오기
   const { data: credits, isLoading, isError } = useQuery({
     queryKey: ['movie', movieId, 'credits'], // 캐싱 키 설정
-    queryFn: () => useGetMovies({ category: `${movieId}/credits`, pageParam: 1 }), // useGetMovies 활용
+    queryFn: () => getMovies({ category: `${movieId}/credits`, pageParam: 1 }), // useGetMovies 활용
     cacheTime: 10000,
     staleTime: 10000,
   });

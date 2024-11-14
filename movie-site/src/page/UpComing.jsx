@@ -3,12 +3,12 @@ import MovieList from "../components/MovieList.jsx";
 import CardListSkeleton from "../components/Skeleton/card-list-skeleton.jsx";
 import * as S from "../components/Skeleton/card-skeleton-style";
 import { useQuery } from "@tanstack/react-query";
-import { useGetMovies } from "../hooks/queries/useGetMovies";
+import { getMovies } from "../hooks/queries/useGetMovies";
 
 const UpComing = () => {
     const { data: movies, isLoading, isError } = useQuery({
         queryKey: ['movies', 'upcoming', 1], 
-        queryFn: () => useGetMovies({ category: 'upcoming', pageParam: 1 }), 
+        queryFn: () => getMovies({ category: 'upcoming', pageParam: 1 }), 
         cacheTime: 10000, 
         staleTime: 10000, 
     });

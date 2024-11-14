@@ -3,12 +3,12 @@ import MovieList from "../components/MovieList.jsx";
 import React from "react";
 import * as S from "../components/Skeleton/card-skeleton-style";
 import { useQuery } from "@tanstack/react-query";
-import { useGetMovies } from "../hooks/queries/useGetMovies";
+import { getMovies } from "../hooks/queries/useGetMovies";
 
 const Popular = () => {
   const { data: movies, isPending, isError } = useQuery({
     queryKey: ['movies', 'popular', 1],
-    queryFn: () => useGetMovies({ category: 'popular', pageParam: 1 }),
+    queryFn: () => getMovies({ category: 'popular', pageParam: 1 }),
     cacheTime:10000,
     staleTime:10000,
 });
