@@ -7,6 +7,34 @@ import CardListSkeleton from "../components/Skeleton/card-list-skeleton.jsx";
 import PaginationControls from "../components/movie/PaginationControls.jsx";
 
 const NowPlaying = () => {
+
+    /*const { data: movies, isPending, isError } = useQuery({
+        queryKey: ['movies', 'now-playing', 1],
+        queryFn: () => useGetMovies({ category: 'now-playing', pageParam: 1 }),
+        cacheTime:10000,
+        staleTime:10000,
+    });*/
+
+    /*const {
+        data,
+        isLoading,
+        hasNextPage,
+        fetchNextPage,
+        isFetching,
+        isFetchingNextPage,
+        isError,
+    } = useGetInfiniteMovies("now_playing");
+
+    const { ref, inView } = useInView({
+        threshold: 0,
+    });
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);*/
+    
     const [page, setPage] = useState(1);
     
     const { data: movies, isLoading, isError, isFetching } = useQuery({
