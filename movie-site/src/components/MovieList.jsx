@@ -63,7 +63,7 @@ const Date = styled.p`
 
 const MoviesGrid = styled.ul`
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
   padding: 20px;
   list-style: none;
@@ -77,7 +77,10 @@ const MovieContainer = styled.li`
 `;
 
 const MoviePoster = styled.img`
-  width: 100%;
+  width: 140px; /* 고정된 가로 크기 */
+  height: 210px; /* 고정된 세로 크기 */
+  object-fit: cover; /* 크기 조정 방식 */
+  border-radius: 8px; /* 선택적으로 모서리를 둥글게 */
 `;
 
 const Overlay = styled.div`
