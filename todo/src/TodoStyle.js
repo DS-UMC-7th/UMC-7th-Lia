@@ -1,99 +1,173 @@
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
-// 전체 form 컨테이너
-export const FormContainer = styled.form`
+// 페이지 배경색
+export const PageContainer = styled.div`
+  background-color: #fce4ec; /* 연한 핑크색 */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 50%;
-  margin: 50px auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-// 인풋 필드 스타일
-export const InputField = styled.input`
+// 메인 제목 스타일
+export const Title = styled.h1`
+  font-size: 24px;
+  color: #ad1457; /* 진한 핑크 */
+  margin-bottom: 20px;
+`;
+
+// FormContainer: 수직 정렬로 변경
+export const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  gap: 10px; /* 각 입력 필드 간 간격 */
+  margin-bottom: 20px;
   width: 100%;
+  max-width: 400px; /* 적당한 너비 설정 */
+`;
+
+// 입력 필드 (수정 상태)
+export const InputField = styled.input`
   padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  border: 2px solid #f8bbd0;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
 
   &:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #ec407a;
   }
 `;
 
 // 버튼 스타일
 export const SubmitButton = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #ec407a; /* 핑크 */
+  color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #d81b60; /* 진한 핑크 */
   }
 
   &:disabled {
-    background-color: #ccc;
+    background-color: #f8bbd0; /* 비활성화 상태 */
     cursor: not-allowed;
   }
 `;
 
-// TodoContainer 스타일
+// ToDo 리스트 컨테이너
+export const Container = styled.div`
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+
+// ToDo 아이템 컨테이너
 export const TodoContainer = styled.div`
   display: flex;
-
-  align-items: flex-start;
-  justify-content: center;
-  padding: 15px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-
-  p {
-    margin: 5px 0;
-    font-size: 16px;
-    color: #333;
-  }
+  justify-content: space-between; /* 좌우 배치 */
+  align-items: center; /* 수직 가운데 정렬 */
+  background-color: #fff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
 
   &:hover {
-    background-color: #f1f1f1;
-    border-color: #bbb;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   }
 `;
 
-export const Container = styled.div`
-    display: flex;
-  flex-direction: column;
-  gap:20px;
+// 제목과 내용을 담는 컨테이너
+export const TodoTextContainer = styled.div`
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  gap: 5px; /* 제목과 내용 간 간격 */
+  flex: 1; /* 버튼과 공간 분리 */
+`;
+
+// 버튼 컨테이너
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px; /* 버튼 간 간격 */
+`;
+
+// ToDo 텍스트
+export const TodoText = styled.p`
+  font-size: 16px;
+  color: #333;
+  flex: 1;
+`;
+
+// 수정 및 삭제 버튼
+export const ActionButton = styled.button`
+  background-color: ${(props) => (props.type === "edit" ? "#f8bbd0" : "#d81b60")};
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.type === "edit" ? "#ec407a" : "#ad1457"};
+  }
+`;
+
+// 수정 완료 버튼 스타일
+export const SaveButton = styled.button`
+  background-color: #ec407a; 
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ad1457;
+  }
+`;
+
+// 수정 모드 컨테이너
+export const EditContainer = styled.div`
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  gap: 5px; /* 필드 간 간격 */
+  flex: 1; /* 버튼과 공간 분리 */
+  margin-left:15px;
+`;
+
+export const NoResults = styled.p`
+  text-align: center;
+  color: #555;
+  font-size: 16px;
+  margin-top: 20px;
 `;
 
 export const ClickableText = styled(Link)`
   cursor: pointer;
-  text-decoration: none; /* 기본 밑줄 제거 */
-color:black;
-  
+   font-size: 16px;
+  color: #444;
+  text-decoration: none;
+  margin-right: 15px;
+  margin-left: 15px;
+
   &:hover {
-    text-decoration: none; /* 호버 시에도 밑줄 제거 */
-color:black;
+   color: #ec407a; /* 진한 핑크 */
+    text-decoration: none;
   }
 `;
 
@@ -176,4 +250,61 @@ export const ErrorContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
 `;
+
+// 상세 페이지 컨테이너
+export const DetailContainer = styled.div`
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 700px;
+  margin: 20px auto; /* 가운데 정렬 */
+`;
+
+// 상세 텍스트 스타일
+export const DetailText = styled.p`
+  font-size: 16px;
+  color: #333;
+  margin: 10px 0;
+`;
+
+// 수정 모드 입력 필드
+export const EditInputField = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #f8bbd0;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  outline: none;
+
+  &:focus {
+    border-color: #ec407a;
+  }
+`;
+
+// 버튼 컨테이너
+export const DetailButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+`;
+
+// 수정 및 삭제 버튼
+export const DetailButton = styled.button`
+  background-color: ${(props) => (props.type === "edit" ? "#f8bbd0" : "#d81b60")};
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.type === "edit" ? "#ec407a" : "#ad1457"};
+  }
+`;
+
 

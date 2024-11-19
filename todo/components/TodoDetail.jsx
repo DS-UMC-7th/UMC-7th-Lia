@@ -52,42 +52,65 @@ const TodoDetail = () => {
     }
   };
 
-  if (isPending) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다: {error.message}</div>;
+  if (isPending) return <S.LoadingContainer>로딩 중...</S.LoadingContainer>;
+  if (error) return <S.ErrorContainer>에러가 발생했습니다: {error.message}</S.ErrorContainer>;
 
   return (
-    <S.Container>
-      <h1>⚡ UMC ToDoList ⚡</h1>
-      <S.TodoContainer>
-        <p><strong>Id:</strong> {todo.id}</p>
+    <S.PageContainer>
+      <S.Title>⚡ UMC ToDoList ⚡</S.Title>
+      <S.DetailContainer>
         {isEditing ? (
           <>
-            <S.InputField
+            <S.EditInputField
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
               placeholder="제목 수정"
             />
-            <S.InputField
+            <S.EditInputField
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
               placeholder="내용 수정"
             />
-            <button onClick={handleEditSubmit}>수정 완료</button>
-            <button onClick={() => setIsEditing(false)}>취소</button>
+            <S.DetailButtonContainer>
+              <S.DetailButton type="edit" onClick={handleEditSubmit}>
+                수정 완료
+              </S.DetailButton>
+              <S.DetailButton onClick={() => setIsEditing(false)}>
+                취소
+              </S.DetailButton>
+            </S.DetailButtonContainer>
           </>
         ) : (
           <>
-            <p><strong>제목:</strong> {todo.title}</p>
-            <p><strong>내용:</strong> {todo.content}</p>
-            <p><strong>상태:</strong> {todo.checked ? "완료" : "진행 중"}</p>
-            <p><strong>생성 날짜:</strong> {new Date(todo.createdAt).toLocaleString()}</p>
-            <button onClick={handleEdit}>수정</button>
-            <button onClick={handleDelete}>삭제</button>
+            <S.DetailText>
+              <strong>Id:</strong> {todo.id}
+            </S.DetailText>
+            <S.DetailText>
+              <strong>제목:</strong> {todo.title}
+            </S.DetailText>
+            <S.DetailText>
+              <strong>내용:</strong> {todo.content}
+            </S.DetailText>
+            <S.DetailText>
+              <strong>상태:</strong> {todo.checked ? "완료" : "진행 중"}
+            </S.DetailText>
+            <S.DetailText>
+              <strong>생성 날짜:</strong> {new Date(todo.createdAt).toLocaleString()}
+            </S.DetailText>
+            <S.DetailButtonContainer>
+              <S.DetailButton type="edit" onClick={handleEdit}>
+                수정
+              </S.DetailButton>
+              <S.DetailButton onClick={handleDelete}>
+                삭제
+              </S.DetailButton>
+            </S.DetailButtonContainer>
           </>
         )}
-      </S.TodoContainer>
-    </S.Container>
+      </S.DetailContainer>
+    </S.PageContainer>
   );
 };
 
 export default TodoDetail;
+
