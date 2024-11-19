@@ -4,7 +4,6 @@ import * as S from "./TodoStyle";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteTodo, getTodoList, patchTodo, postTodo } from "../apis/todo";
 import { queryClient } from "./main";
-import { Link } from "react-router-dom";
 
 const TodoList = () => {
   const [title, setTitle] = useState("");
@@ -15,7 +14,7 @@ const TodoList = () => {
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
 
-  const { data: todos, isPending } = useQuery({
+  const { data: todos, isPending, isError, error } = useQuery({
     queryFn: () => getTodoList({ title: debouncedSearch }),
     queryKey: ["todos", debouncedSearch],
   });
@@ -29,8 +28,8 @@ const TodoList = () => {
     },
   });
 
-  const { mutate: deleteTodoMutation } = useMutation({
-    mutationFn: deleteTodo,
+  const { mutate: patchTodoMutation } = useMutation({
+    mutationFn: patchTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["todos"],
@@ -38,8 +37,8 @@ const TodoList = () => {
     },
   });
 
-  const { mutate: patchTodoMutation } = useMutation({
-    mutationFn: patchTodo,
+  const { mutate: deleteTodoMutation } = useMutation({
+    mutationFn: deleteTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["todos"],
@@ -99,8 +98,21 @@ const TodoList = () => {
         />
         <S.SubmitButton type="submit">ToDo 생성</S.SubmitButton>
       </S.FormContainer>
+  
       {isPending ? (
-        <div>로딩 중입니다.</div>
+        <S.LoadingContainer>
+          <div>
+            <S.Dot />
+            <S.Dot />
+            <S.Dot />
+          </div>
+          <S.LoadingText>게시글을 불러오는 중입니다...</S.LoadingText>
+        </S.LoadingContainer>
+      ) : isError ? (
+        <S.ErrorContainer>
+          <S.ErrorIcon>❌</S.ErrorIcon>
+          <S.ErrorText>오류가 발생했습니다: {error.message}</S.ErrorText>
+        </S.ErrorContainer>
       ) : (
         <S.Container>
           {todos[0]?.map((todo) => (
@@ -126,14 +138,16 @@ const TodoList = () => {
                 </div>
               ) : (
                 <div>
-                  <p>{todo.title}</p>
-                  <p>{todo.content}</p>
-                  {/* 상세 페이지로 이동하는 링크 */}
-                  <Link to={`/todo/${todo.id}`}>
-                    <button>상세 보기</button>
-                  </Link>
+                  <S.ClickableText to={`/todo/${todo.id}`}>
+                    {todo.title}
+                  </S.ClickableText>
+                  <S.ClickableText to={`/todo/${todo.id}`}>
+                    {todo.content}
+                  </S.ClickableText>
                   <button onClick={() => handleEdit(todo)}>수정</button>
-                  <button onClick={() => deleteTodoMutation({ id: todo.id })}>삭제</button>
+                  <button onClick={() => deleteTodoMutation({ id: todo.id })}>
+                    삭제
+                  </button>
                 </div>
               )}
             </S.TodoContainer>
@@ -142,6 +156,7 @@ const TodoList = () => {
       )}
     </>
   );
+  
 };
 
 export default TodoList;
