@@ -4,6 +4,7 @@ import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
 import Loading from "../components/Loading";
 import ErrorDisplay from "../components/ErrorDisplay";
+import useDebounce from "../hooks/useDebounce"; // 디바운스 훅 임포트
 import * as S from "./TodoStyle";
 
 const TodoList = () => {
@@ -11,13 +12,15 @@ const TodoList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태
+  const debouncedSearchTerm = useDebounce(searchTerm, 700); // 디바운싱 적용
 
   // fetchTodos 함수 정의
-  const fetchTodos = async () => {
+  const fetchTodos = async (title = "") => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await getTodoList({ title: "" });
+      const data = await getTodoList({ title }); // 검색어를 query parameter로 전달
       setTodos(data);
     } catch (err) {
       setError(err);
@@ -26,10 +29,15 @@ const TodoList = () => {
     }
   };
 
-  // useEffect로 데이터 로드
+  // useEffect로 데이터 로드 및 검색어에 따른 호출
   useEffect(() => {
-    fetchTodos();
-  }, []);
+    fetchTodos(debouncedSearchTerm); // 디바운스된 검색어로 호출
+  }, [debouncedSearchTerm]);
+
+  // 검색 핸들러
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   // Todo 생성
   const handleCreate = async (title, content) => {
@@ -66,23 +74,34 @@ const TodoList = () => {
       <S.Title>⚡ UMC ToDoList ⚡</S.Title>
       <TodoForm onCreate={handleCreate} />
 
+      {/* 검색 입력 필드 */}
+      <S.SearchInput
+        type="text"
+        placeholder="제목으로 검색"
+        value={searchTerm}
+        onChange={handleSearch}
+      />
+
       <S.Container>
         {isLoading && <Loading />} {/* 로딩 상태 표시 */}
         {error && <ErrorDisplay message={error.message} />} {/* 에러 상태 표시 */}
-        {!isLoading && !error && todos[0]?.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            editingId={editingId}
-            setEditingId={setEditingId}
-            patchTodo={handleUpdate}
-            deleteTodo={handleDelete}
-            refreshTodos={fetchTodos}
-          />
-        ))}
+        {!isLoading &&
+          !error &&
+          todos[0]?.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              editingId={editingId}
+              setEditingId={setEditingId}
+              patchTodo={handleUpdate}
+              deleteTodo={handleDelete}
+              refreshTodos={fetchTodos}
+            />
+          ))}
       </S.Container>
     </S.PageContainer>
   );
 };
 
 export default TodoList;
+

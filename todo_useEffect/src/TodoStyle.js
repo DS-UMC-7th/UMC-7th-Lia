@@ -308,17 +308,25 @@ export const DetailButton = styled.button`
   }
 `;
 
-// 검색 컨테이너 스타일
-export const SearchContainer = styled.div`
+
+export const SearchInput = styled.input`
   width: 100%;
-  max-width: 600px; /* 검색창 너비 */
-  margin: 20px auto; /* 가운데 정렬 */
-  display: flex;
-  justify-content: center; /* 가운데 정렬 */
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 560px; 
+  padding: 10px; 
+  margin: 10px 0; 
+  border: 2px solid #f8bbd0; 
+  border-radius: 5px; 
+  outline: none; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+
+  &:focus {
+    border-color: #ec407a; 
+    box-shadow: 0 4px 8px rgba(236, 64, 122, 0.2);
+  }
+
+
+
+  transition: all 0.3s ease; 
 `;
 
 

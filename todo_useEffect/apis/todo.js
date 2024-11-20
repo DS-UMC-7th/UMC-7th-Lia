@@ -9,17 +9,18 @@ const postTodo=async ({title,content,checked=false}) => {
 
     return data;
 }
+const getTodoList = async ({ title }) => {
+    let url = "/todo";
 
-const getTodoList = async ({title}) => {
-    let url = "/todo"
+    if (title) {
+        url += `?title=${title}`;
+    }
 
-    if(title)
-        url += '?title=${title}'
-
-    const{data}=await axiosInstance.get(url)
-
+    const { data } = await axiosInstance.get(url);
     return data;
-}
+};
+
+
 
 const getTodo = async ({id}) => {
 

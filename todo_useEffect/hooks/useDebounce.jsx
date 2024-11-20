@@ -9,7 +9,7 @@ const useDebounce = (value, delay) => {
     }, delay);
 
     return () => {
-      clearTimeout(handler);
+      clearTimeout(handler); // 이전 타이머를 클리어
     };
   }, [value, delay]);
 
