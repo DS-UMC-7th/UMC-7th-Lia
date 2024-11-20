@@ -6,6 +6,7 @@ const TodoItem = ({ todo, editingId, setEditingId, refreshTodos }) => {
   const [editTitle, setEditTitle] = useState(todo.title);
   const [editContent, setEditContent] = useState(todo.content);
   const [isUpdating, setIsUpdating] = useState(false);
+  
 
   // Todo 수정
   const handleEditSubmit = async () => {

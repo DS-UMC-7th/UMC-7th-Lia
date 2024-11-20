@@ -235,6 +235,7 @@ export const ErrorText = styled.p`
   text-align: center;
 `;
 
+
 // 에러 컨테이너
 export const ErrorContainer = styled.div`
   display: flex;
@@ -306,5 +307,19 @@ export const DetailButton = styled.button`
       props.type === "edit" ? "#ec407a" : "#ad1457"};
   }
 `;
+
+// 검색 컨테이너 스타일
+export const SearchContainer = styled.div`
+  width: 100%;
+  max-width: 600px; /* 검색창 너비 */
+  margin: 20px auto; /* 가운데 정렬 */
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
 
 
