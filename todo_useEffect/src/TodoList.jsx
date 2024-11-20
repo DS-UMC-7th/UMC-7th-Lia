@@ -61,16 +61,15 @@ const TodoList = () => {
     }
   };
 
-  if (isLoading) return <Loading />;
-  if (error) return <ErrorDisplay message={error.message} />;
-
   return (
     <S.PageContainer>
       <S.Title>⚡ UMC ToDoList ⚡</S.Title>
       <TodoForm onCreate={handleCreate} />
 
       <S.Container>
-        {todos[0]?.map((todo) => (
+        {isLoading && <Loading />} {/* 로딩 상태 표시 */}
+        {error && <ErrorDisplay message={error.message} />} {/* 에러 상태 표시 */}
+        {!isLoading && !error && todos[0]?.map((todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}
