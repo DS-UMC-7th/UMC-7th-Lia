@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import useForm from '../hooks/use-form.js';
-import { validationLogin } from '../utils/validate.js';
-import api from '../apis/axios'; // Axios 인스턴스 가져오기
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import useForm from "../hooks/use-form.js";
+import { validationLogin } from "../utils/validate.js";
 
 const Loginpage = () => {
   const navigate = useNavigate();
@@ -13,8 +12,8 @@ const Loginpage = () => {
 
   const login = useForm({
     initialValue: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validate: validationLogin,
   });
@@ -24,10 +23,10 @@ const Loginpage = () => {
     setApiError(null);
   
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: login.values.email,
@@ -35,79 +34,123 @@ const Loginpage = () => {
         }),
       });
   
-      // 응답이 성공적인지 확인
       if (!response.ok) {
-        // 응답에서 JSON 데이터를 가져오는 부분 수정
-        const errorData = await response.text(); // text()로 응답을 가져오기
-        throw new Error(errorData || '이메일 또는 비밀번호가 올바르지 않습니다.');
+        const errorData = await response.text();
+        throw new Error(errorData || "로그인 정보가 유효하지 않습니다.");
       }
   
-      // 성공적인 경우 응답을 JSON으로 변환
-      const result = await response.json(); // 여기서 json()을 사용
+      const result = await response.json();
+      console.log("로그인 응답 데이터:", result);
   
-      console.log('로그인 성공:', result);
+      // Access Token 및 Refresh Token 저장
+      localStorage.setItem("accessToken", result.accessToken);
+      localStorage.setItem("refreshToken", result.refreshToken);
   
-      // 로그인 시 받은 유저 정보를 setUser로 설정
-      setUser(result.user); // 로그인 응답에서 user 정보를 사용하여 상태 업데이트
-      loginUser({ accessToken: result.accessToken, refreshToken: result.refreshToken });
-      navigate('/');
-      
+      if (!result.user) {
+        // /user/me 호출로 유저 정보 가져오기
+        const userResponse = await fetch("http://localhost:3000/user/me", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${result.accessToken}`,
+          },
+        });
+  
+        if (!userResponse.ok) {
+          const errorData = await userResponse.text();
+          throw new Error(
+            errorData || "유저 정보를 가져오는 데 실패했습니다."
+          );
+        }
+  
+        const userData = await userResponse.json();
+        console.log("유저 정보:", userData);
+        setUser(userData); // 유저 정보 저장
+      } else {
+        setUser(result.user);
+      }
+  
+      loginUser({
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+      });
+  
+      navigate("/");
     } catch (error) {
       setApiError(error.message);
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
   
+  
+
   const handleTokenRefresh = async () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (!refreshToken) {
+      setApiError("로그인이 만료되었습니다. 다시 로그인하세요.");
+      return;
+    }
+
     try {
-      const response = await api.post('/auth/token/access', {}, {
+      const response = await fetch("http://localhost:3000/auth/token/access", {
+        method: "POST",
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` // 저장된 refreshToken 사용
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          // Refresh Token 만료 시 로그아웃 처리
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          navigate("/login");
+          throw new Error("Refresh Token이 만료되었습니다. 다시 로그인하세요.");
         }
-      }); // 토큰 재발급 요청
-  
-      const { accessToken, refreshToken } = response.data;
-  
-      // 새로 받은 토큰을 로컬 스토리지에 저장
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-  
-      // 콘솔에 새로 받은 토큰 출력
-      console.log('Access Token 재발급 성공:', accessToken);
-      console.log('Refresh Token 재발급 성공:', refreshToken);
-      
+        throw new Error("토큰 재발급 실패");
+      }
+
+      const result = await response.json();
+      console.log("토큰 재발급 성공:", result);
+
+      // 새 토큰 저장
+      localStorage.setItem("accessToken", result.accessToken);
+      localStorage.setItem("refreshToken", result.refreshToken);
     } catch (error) {
-      setApiError('토큰 재발급 오류: ' + error.message);
-      console.error('토큰 재발급 에러:', error);
+      setApiError(error.message);
+      console.error("토큰 재발급 에러:", error);
     }
   };
-  
-  
 
   return (
     <Container>
       <h3>로그인</h3>
       {apiError && <ErrorText>{apiError}</ErrorText>}
       <Form onSubmit={handlePressLogin}>
-        <Input 
-          error={login.touched.email && login.errors.email} 
-          type='email' 
-          placeholder='이메일을 입력해주세요!' 
-          {...login.getTextInputProps('email')}
+        <Input
+          error={login.touched.email && !!login.errors.email}
+          type="email"
+          placeholder="이메일을 입력해주세요!"
+          {...login.getTextInputProps("email")}
         />
-        {login.touched.email && login.errors.email && <ErrorText>{login.errors.email}</ErrorText>}
+        {login.touched.email && login.errors.email && (
+          <ErrorText>{login.errors.email}</ErrorText>
+        )}
 
-        <Input 
-          error={login.touched.password && login.errors.password} 
-          type='password' 
-          placeholder='비밀번호를 입력해주세요!' 
-          {...login.getTextInputProps('password')}
+        <Input
+          error={login.touched.password && !!login.errors.password}
+          type="password"
+          placeholder="비밀번호를 입력해주세요!"
+          {...login.getTextInputProps("password")}
         />
-        {login.touched.password && login.errors.password && <ErrorText>{login.errors.password}</ErrorText>}
+        {login.touched.password && login.errors.password && (
+          <ErrorText>{login.errors.password}</ErrorText>
+        )}
 
         <LoginButton type="submit">로그인</LoginButton>
       </Form>
-      <RefreshButton type="button" onClick={handleTokenRefresh}>Access Token 재발급</RefreshButton>
+      <RefreshButton type="button" onClick={handleTokenRefresh}>
+        Access Token 재발급
+      </RefreshButton>
     </Container>
   );
 };
@@ -123,28 +166,30 @@ const Container = styled.div`
 
 const Form = styled.form`
   display: flex;
-  flex-direction: column;  
-  align-items: center;  
+  flex-direction: column;
+  align-items: center;
 `;
 
-const Input = styled.input`
-  padding: 10px;  
+const Input = styled.input.withConfig({
+  shouldForwardProp: (prop) => prop !== "error",
+})`
+  padding: 10px;
   margin: 10px 0;
   border-radius: 10px;
-  width: 400px;  
+  width: 400px;
   background-color: white;
-  border: ${({ error }) => (error ? '4px solid red' : '1px solid #ccc')};
+  border: ${({ error }) => (error ? "4px solid red" : "1px solid #ccc")};
 
   &:focus {
     border-color: #000080;
   }
 `;
 
-const LoginButton = styled.button` 
-  padding: 10px;  
+const LoginButton = styled.button`
+  padding: 10px;
   margin: 10px 0;
   border-radius: 10px;
-  width: 420px; 
+  width: 420px;
   color: white;
   border: none;
   background-color: #c4006a;
@@ -156,10 +201,10 @@ const LoginButton = styled.button`
 `;
 
 const RefreshButton = styled.button`
-  padding: 10px;  
+  padding: 10px;
   margin: 10px 0;
   border-radius: 10px;
-  width: 420px; 
+  width: 420px;
   color: white;
   border: none;
   background-color: #007bff;
