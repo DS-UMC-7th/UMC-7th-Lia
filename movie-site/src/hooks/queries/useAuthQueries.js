@@ -19,6 +19,27 @@ export const useFetchUser = () => {
   });
 };
 
+export const useSignUpMutation = () => {
+  return useMutation({
+    mutationFn: async (userInfo) => {
+      // 회원가입 요청
+      const response = await api.post("/auth/register", {
+        email: userInfo.email,
+        password: userInfo.password,
+        passwordCheck: data.passwordCheck, 
+      });
+
+      return response.data; // 회원가입 성공 시 반환 데이터
+    },
+    onSuccess: (data) => {
+      console.log("회원가입 성공:", data);
+    },
+    onError: (error) => {
+      console.error("회원가입 에러:", error.message);
+    },
+  });
+};
+
 
 export const useLoginMutation = () => {
   const queryClient = useQueryClient();

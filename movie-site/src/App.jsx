@@ -12,6 +12,7 @@ import TopRated from './page/TopRated.jsx'; // 높은 평가를 받은 영화 �
 import UpComing from './page/UpComing.jsx'; // 개봉 예정작 페이지
 import MoviesPage from "./page/Moviespage.jsx";
 import MovieDetail from './page/MoviesDetail.jsx';
+import ReviewSection from "./components/ReviewSection";
 import { AuthProvider } from './context/AuthContext';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Card />
+        element: <Popular />
       },
       {
         path: 'movies',
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: 'search',
         element: <Searchpage />
+      },
+      {
+        path: '/movies/:movieId/review',
+        element: <ReviewSection />
       }
     ]
   },
