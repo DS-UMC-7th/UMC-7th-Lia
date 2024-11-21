@@ -1,7 +1,9 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import InfoDetail from "./InfoDetail";
 import CreditDetail from "./CreditDetail";
-import { useNavigate, useParams } from "react-router-dom";
+import ReviewForm from "./ReviewForm";
+import ReviewList from "./ReviewList"; // ReviewList 가져오기
 
 const Container = styled.div`
   margin: 0;
@@ -9,40 +11,29 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   color: #ffffff;
-  background-color: #000; /* 배경색 추가 */
-`;
-
-const ReviewButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #c4006a;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left:50px;
-
-  &:hover {
-    background-color: ${(props) =>
-      props.color === "#c4006a" ? "#a0004d" : "#222"};
-  }
+  background-color: #000;
 `;
 
 const MoviesDetail = () => {
-  const navigate = useNavigate();
-  const { movieId } = useParams(); // URL에서 movieId 가져오기
+  const [reviews, setReviews] = useState([
+    { review: "정말 재미있었어요!", rating: 5 },
+    { review: "생각보다 별로였어요.", rating: 2 },
+  ]);
 
-  const handleNavigateToReview = () => {
-    navigate(`/movies/${movieId}/review`); // 리뷰 페이지로 이동
+  const handleAddReview = (newReview) => {
+    setReviews((prevReviews) => [...prevReviews, newReview]); // 리뷰 추가
   };
 
   return (
     <Container>
-       <ReviewButton onClick={handleNavigateToReview}>
-        리뷰 작성하러 가기
-      </ReviewButton>
       <InfoDetail />
       <CreditDetail />
+
+      {/* ReviewForm 컴포넌트 */}
+      <ReviewForm onSubmit={handleAddReview} />
+
+      {/* ReviewList 컴포넌트 */}
+      <ReviewList reviews={reviews} />
     </Container>
   );
 };
