@@ -8,6 +8,10 @@ const ReviewFormContainer = styled.form`
   background-color: #1a1a1a;
   color: #ffffff;
 
+   h3 {
+    margin-bottom: 20px; 
+  }
+
   textarea {
     width: 100%;
     height: 100px;

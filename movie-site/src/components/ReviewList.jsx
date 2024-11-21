@@ -7,6 +7,11 @@ const ReviewContainer = styled.div`
   border-radius: 10px;
   background-color: #1a1a1a;
   color: #ffffff;
+
+   h3 {
+    margin-bottom: 20px; 
+  }
+
 `;
 
 const Review = styled.div`
