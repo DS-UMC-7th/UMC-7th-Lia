@@ -17,6 +17,7 @@ import TvTopRated from './page/Tv/TvTopRated.jsx';
 import TvOntheair from './page/Tv/TvOntheair.jsx';
 import TvPage from './page//TvPage.jsx';
 import TvAiring from './page/Tv/TvAiring.jsx'
+import TvDetail from './page/TvDetail.jsx';
 import { AuthProvider } from './context/AuthContext';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: 'tv/airing-today',
         element: <TvAiring />
+      },
+      {
+        path: 'tv/:series_id', 
+        element: <TvDetail /> 
       },
     ]
   },

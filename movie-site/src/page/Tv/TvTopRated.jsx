@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MovieList from "../../components/MovieList.jsx";
+import TvList from "../../components/TvList.jsx";
 import * as S from "../../components/Skeleton/card-skeleton-style";
 import { useQuery } from "@tanstack/react-query";
 import { useGetTv } from "../../hooks/queries/useGetTv.js"; 
@@ -11,8 +11,8 @@ const TopRated = () => {
       
       const [page, setPage] = useState(1);
     
-    const { data: movies, isLoading, isError, isFetching } = useQuery({
-        queryKey: ["movies", "top-rated", page], 
+    const { data: tvs, isLoading, isError, isFetching } = useQuery({
+        queryKey: ["tvs", "top-rated", page], 
         queryFn: () => useGetTv({ category: "top_rated", pageParam: page }), 
         keepPreviousData: true,
         staleTime: 10000, 
@@ -38,8 +38,8 @@ const TopRated = () => {
         <>
             <S.Container>
                 {/* 데이터를 안전하게 렌더링 */}
-                {movies?.results?.length ? (
-                    <MovieList movies={movies.results} />
+                {tvs?.results?.length ? (
+                    <TvList tvs={tvs.results} />
                 ) : (
                     <S.Container>데이터가 없습니다.</S.Container>
                 )}
