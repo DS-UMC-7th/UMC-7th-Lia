@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaSearch, FaFilm } from 'react-icons/fa';
+import { FaSearch, FaFilm ,FaTv } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const StyledSidebar = styled.aside`
@@ -33,6 +33,9 @@ const Sidebar = () => {
       </MenuItem>
       <MenuItem to="/movies">
         <FaFilm style={{ marginRight: '15px' }} /> 영화
+      </MenuItem>
+      <MenuItem to="/tv">
+        <FaTv  style={{ marginRight: '15px' }} /> TV
       </MenuItem>
     </StyledSidebar>
   );

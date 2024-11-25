@@ -1,22 +1,32 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { useFetchUser, useLoginMutation, useRefreshAccessTokenMutation } from "../hooks/queries/useAuthQueries";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { data: user, isLoading } = useFetchUser(); // 유저 정보 Fetch
-  const loginMutation = useLoginMutation(); // 로그인 Mutation
-  const refreshAccessTokenMutation = useRefreshAccessTokenMutation(); // 토큰 갱신 Mutation
+  const [user, setUser] = useState(null);
+  const { data: fetchedUser, isLoading } = useFetchUser();
+  const loginMutation = useLoginMutation();
+  const refreshAccessTokenMutation = useRefreshAccessTokenMutation();
+
+  // 유저 정보를 Fetch 시 동기화
+  useEffect(() => {
+    if (fetchedUser) {
+      setUser(fetchedUser);
+    }
+  }, [fetchedUser]);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    setUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         login: loginMutation.mutate,
         logout,
         refreshAccessToken: refreshAccessTokenMutation.mutate,
@@ -30,7 +40,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth는 AuthProvider 내부에서만 사용할 수 있습니다.");
   }
   return context;
 };

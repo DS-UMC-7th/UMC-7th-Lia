@@ -6,7 +6,6 @@ import { getMovies } from "../hooks/queries/useGetMovies";
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 20px;
   color: white;
   border-radius: 10px;
   padding: 20px;
