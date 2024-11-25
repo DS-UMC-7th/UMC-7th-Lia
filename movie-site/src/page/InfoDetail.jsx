@@ -1,18 +1,16 @@
-// InfoDetail.jsx
 import styled from "styled-components";
-import useCustomFetch from "../hooks/useCustomFetchDetail";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getMovies } from "../hooks/queries/useGetMovies";
 
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin: 20px;
   color: white;
-
   border-radius: 10px;
-  padding: 20px; 
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
-  
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 `;
 
 const Left = styled.div`
@@ -30,11 +28,15 @@ const BackImg = styled.img`
   border-radius: 10px;
 `;
 
-
-
 const InfoDetail = () => {
-  const params = useParams();
-  const { data: details, isLoading, isError } = useCustomFetch(`/movie/${params.movieId}?language=ko-KR`);
+  const { movieId } = useParams();
+
+  const { data: movie, isLoading, isError } = useQuery({
+    queryKey: ['movie', movieId],
+    queryFn: () => getMovies({ category: movieId, pageParam: 1 }), 
+    cacheTime: 10000,
+    staleTime: 10000,
+  });
 
   if (isLoading) {
     return <h1 style={{ color: 'white' }}>로딩중입니다..</h1>;
@@ -44,14 +46,6 @@ const InfoDetail = () => {
     return <h1 style={{ color: 'white' }}>에러가 발생했습니다.</h1>;
   }
 
-  // API 응답이 정의되지 않은 경우 처리
-  if (!details) {
-    return <div>영화 정보를 가져올 수 없습니다.</div>;
-  }
-
-  const movie = details; 
-
-  // 영화 정보가 없는 경우 처리
   if (!movie) {
     return <div>영화 정보를 가져올 수 없습니다.</div>;
   }

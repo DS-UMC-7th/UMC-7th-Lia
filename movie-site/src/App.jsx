@@ -13,8 +13,8 @@ import UpComing from './page/UpComing.jsx'; // 개봉 예정작 페이지
 import MoviesPage from "./page/Moviespage.jsx";
 import MovieDetail from './page/MoviesDetail.jsx';
 import { AuthProvider } from './context/AuthContext';
-
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const router = createBrowserRouter([
   {
@@ -66,11 +66,16 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClinet = new QueryClient()
+
 function App() {
   return (
-    <AuthProvider> {/* AuthProvider로 감싸기 */}
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClinet}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 

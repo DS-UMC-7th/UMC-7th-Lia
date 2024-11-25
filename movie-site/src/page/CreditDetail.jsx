@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import useCustomFetch from "../hooks/useCustomFetchDetail";
+import { useQuery } from "@tanstack/react-query";
+import { getMovies } from "../hooks/queries/useGetMovies";
 
 const CreditsContainer = styled.div`
   display: flex;
@@ -8,7 +9,6 @@ const CreditsContainer = styled.div`
   margin: 20px;
   color: white; 
 `;
-
 
 const CardContainer = styled.div`
   display: grid;
@@ -21,9 +21,8 @@ const Card = styled.div`
   display: flex;
   flex-direction: column; 
   align-items: center; 
-
   border-radius: 8px; 
-  padding: 10px; /
+  padding: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
 
   &:hover {
@@ -44,7 +43,6 @@ const ProfileImg = styled.img`
   width: 100px; 
   height: 100px;
   border-radius: 50%; 
-
   object-fit: cover; /*->비율 유지*/
   margin-bottom: 8px; 
 `;
@@ -55,18 +53,22 @@ const DefaultImg = styled.div`
   border-radius: 50%; 
   background-color: gray;
   display: flex;
-
   justify-content: center;
   align-items: center;
-
   color: white;
   font-size: 0.8em; 
 `;
 
-
 const CreditDetail = () => {
-  const params = useParams();
-  const { data: credits, isLoading, isError } = useCustomFetch(`/movie/${params.movieId}/credits?language=ko-KR`);
+  const { movieId } = useParams();
+
+  // React Query를 활용한 데이터 가져오기
+  const { data: credits, isLoading, isError } = useQuery({
+    queryKey: ['movie', movieId, 'credits'], // 캐싱 키 설정
+    queryFn: () => getMovies({ category: `${movieId}/credits`, pageParam: 1 }), // useGetMovies 활용
+    cacheTime: 10000,
+    staleTime: 10000,
+  });
 
   if (isLoading) {
     return <h1 style={{ color: 'white' }}>로딩중입니다..</h1>;
@@ -76,13 +78,12 @@ const CreditDetail = () => {
     return <h1 style={{ color: 'white' }}>에러가 발생했습니다.</h1>;
   }
 
-  // API 응답이 정의되지 않은 경우 처리 -> 계속 오류나서 어느 부분에서 오류났는지 확인하기 위해 추가함
   if (!credits) {
     return <div>크레딧 정보를 가져올 수 없습니다.</div>;
   }
 
   const casts = credits.cast;
-  const crews = credits.crew; 
+  const crews = credits.crew;
 
   return (
     <CreditsContainer>
@@ -115,6 +116,6 @@ const CreditDetail = () => {
       </CardContainer>
     </CreditsContainer>
   );
-}
+};
 
 export default CreditDetail;
