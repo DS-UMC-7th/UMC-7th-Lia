@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // AuthContext에서 useAuth 가져오기
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const StyledNav = styled.nav`
   background: #111;
@@ -20,7 +20,7 @@ const Logo = styled(Link)`
 `;
 
 const Button = styled(Link)`
-  background-color: ${props => props.color || '#111'};
+  background-color: ${(props) => props.color || "#111"};
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -30,68 +30,77 @@ const Button = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    background-color: ${props => 
-      props.color === '#c4006a' ? '#a0004d' : '#222'};
+    background-color: ${(props) =>
+      props.color === "#c4006a" ? "#a0004d" : "#222"};
   }
 `;
 
 const Navbar = () => {
-  const { user, logout, setUser } = useAuth(); // AuthContext에서 user와 logout, setUser 가져오기
+  const { user, logout, setUser } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  // 유저의 이메일에서 @ 앞부분 추출
-  const nickname = user && user.email ? user.email.split('@')[0] : ''; 
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const nickname = user?.email ? user.email.split("@")[0] : "";
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('accessToken'); // 토큰 가져오기
-      if (!token) return; // 토큰이 없으면 함수 종료
-  
       try {
-        const response = await fetch('http://localhost:3000/user/me', {
-          method: 'GET',
+        const response = await fetch("http://localhost:3000/user/me", {
+          method: "GET",
           headers: {
-            'Authorization': `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         });
-  
+    
         if (!response.ok) {
-          throw new Error('유저 정보를 불러오는 데 실패했습니다.'); // 에러 처리
+          if (response.status === 500) {
+            throw new Error("서버에서 문제가 발생했습니다. 잠시 후 다시 시도하세요.");
+          }
+          throw new Error("유저 정보를 가져오는 데 실패했습니다.");
         }
-  
-        const userData = await response.json();
-        console.log('유저 정보:', userData);
-        // 유저 정보를 AuthContext에 업데이트하는 방법을 구현하세요.
+    
+        const data = await response.json();
+        console.log("유저 데이터:", data);
+        return data;
       } catch (error) {
-        setError(error.message);
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
+        throw error;
       }
     };
-  
-    fetchUserData();
-  }, []); // 컴포넌트가 마운트될 때 한 번 실행
-  
+    
+
+    if (!user) {
+      fetchUserData(); // 유저 정보가 없을 때만 호출
+    }
+  }, [user, setUser]);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <StyledNav>
       <Logo to="/">YONGCHA</Logo>
       <div>
-        {error && <span style={{ color: 'red' }}>{error}</span>} 
+        {error && <span style={{ color: "red" }}>{error}</span>}
         {nickname ? (
           <>
-            <span style={{ color: '#c4006a', marginRight: '20px' }}>{nickname}님</span>
-            <Button color="#c4006a" onClick={handleLogout}>로그아웃</Button>
+            <span style={{ color: "#c4006a", marginRight: "20px" }}>
+              {nickname}님
+            </span>
+            <Button as="button" color="#c4006a" onClick={handleLogout}>
+              로그아웃
+            </Button>
           </>
         ) : (
           <>
-            <Button color="#111" to="/login">로그인</Button>
-            <Button color="#c4006a" to="/signup">회원가입</Button>
+            <Button color="#111" to="/login">
+              로그인
+            </Button>
+            <Button color="#c4006a" to="/signup">
+              회원가입
+            </Button>
           </>
         )}
       </div>

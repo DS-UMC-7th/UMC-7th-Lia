@@ -12,6 +12,12 @@ import TopRated from './page/TopRated.jsx'; // 높은 평가를 받은 영화 �
 import UpComing from './page/UpComing.jsx'; // 개봉 예정작 페이지
 import MoviesPage from "./page/Moviespage.jsx";
 import MovieDetail from './page/MoviesDetail.jsx';
+import TvPopular from './page/Tv/TvPopular.jsx';
+import TvTopRated from './page/Tv/TvTopRated.jsx';
+import TvOntheair from './page/Tv/TvOntheair.jsx';
+import TvPage from './page//TvPage.jsx';
+import TvAiring from './page/Tv/TvAiring.jsx'
+import TvDetail from './page/TvDetail.jsx';
 import { AuthProvider } from './context/AuthContext';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -24,7 +30,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Card />
+        element: <Popular />
       },
       {
         path: 'movies',
@@ -61,7 +67,31 @@ const router = createBrowserRouter([
       {
         path: 'search',
         element: <Searchpage />
-      }
+      },
+      {
+        path: 'tv',
+        element: <TvPage />
+      },
+      {
+        path: 'tv/popular',
+        element: <TvPopular />
+      },
+      {
+        path: 'tv/top-rated',
+        element: <TvTopRated />
+      },
+      {
+        path: 'tv/on-the-air',
+        element: <TvOntheair />
+      },
+      {
+        path: 'tv/airing-today',
+        element: <TvAiring />
+      },
+      {
+        path: 'tv/:series_id', 
+        element: <TvDetail /> 
+      },
     ]
   },
 ]);
