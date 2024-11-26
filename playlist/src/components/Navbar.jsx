@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { CartIcon } from "../constants/icons"; 
+import StyledCartIcon from "../constants/StyledCartIcon";
 import { useSelector } from "react-redux";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 
 // 스타일 컴포넌트 정의
 const Nav = styled.nav`
@@ -25,21 +26,19 @@ const Logo = styled.h3`
 
 const CartContainer = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start; /* 아이템을 상단 정렬 */
+
 `;
 
 const CartAmount = styled.p`
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
   color: white;
   background-color: #ff6b6b;
   padding: 5px 10px;
   border-radius: 50px;
+  margin-top: -9px; /* 위쪽으로 살짝 띄움 */
 `;
-
-
-
 
 
 const Navbar = () => {
@@ -50,7 +49,7 @@ const Navbar = () => {
       <NavContainer>
         <Logo>REAL DATA UMC PlayList</Logo>
         <CartContainer>
-          <CartIcon />
+          <HiOutlineShoppingBag  size="40" color="white"/>
           <CartAmount>{amount}</CartAmount>
         </CartContainer>
       </NavContainer>
