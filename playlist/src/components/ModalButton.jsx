@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../features/cart/cartSlice";
+import { closeModal } from "../features/modal/modalSlice";
 
 // 스타일 컴포넌트 정의
 const ButtonContainer = styled.div`
@@ -26,6 +27,7 @@ const Button = styled.button`
 
 const ModalButton = () => {
   const dispatch = useDispatch();
+  
 
   return (
     <ButtonContainer>
@@ -33,6 +35,7 @@ const ModalButton = () => {
         confirm
         onClick={() => {
           dispatch(clearCart());
+          dispatch(closeModal());
         }}
       >
         네
@@ -40,6 +43,7 @@ const ModalButton = () => {
       <Button
         onClick={() => {
           // 아니오 버튼 클릭 시 추가 동작
+          dispatch(closeModal());
         }}
       >
         아니오

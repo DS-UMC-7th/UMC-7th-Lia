@@ -1,13 +1,13 @@
 import reactDom from "react-dom"
 
-const ModalPortal=({childern})=>{
+const ModalPortal=({children })=>{
     if(typeof window==="undefined"){
         return null
     }
 
-    const node = document.createElementById("potal")
+    const node = document.getElementById("portal")
 
-    return reactDom.createPortal(childern,node)
+    return reactDom.createPortal(children ,node)
 }
 
 export default ModalPortal

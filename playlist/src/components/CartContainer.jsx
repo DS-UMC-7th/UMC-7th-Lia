@@ -2,6 +2,7 @@ import styled from "styled-components";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../features/cart/cartSlice";
+import { openModal } from "../features/modal/modalSlice";
 
 // 스타일 컴포넌트 정의
 const Section = styled.section`
@@ -81,7 +82,7 @@ const CartContainer = () => {
         <button
           className="clear-btn"
           onClick={() => {
-            dispatch(clearCart());
+            dispatch(openModal());
           }}
         >
           장바구니 초기화
