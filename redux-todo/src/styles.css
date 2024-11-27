@@ -1,0 +1,160 @@
+/* 전체 컨테이너 */
+.todo-container {
+    width: 350px;
+    background-color: #f5f7fa;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    margin: auto;
+  }
+  
+  /* 헤더 스타일 */
+  .todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .todo-date p {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .todo-date span {
+    font-size: 0.9rem;
+    color: #888;
+  }
+  
+  .todo-time {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* 입력 필드 */
+  .InputTodo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .InputTodo form {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .textbar {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+    margin-right: 10px;
+  }
+  
+  .textbar:focus {
+    border-color: #4caf50;
+  }
+  
+  .submitbutton {
+    width: 40px;
+    height: 40px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .submitbutton:hover {
+    background-color: #45a049;
+  }
+  
+  /* To-Do 리스트 */
+  .todo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+  }
+  
+  /* 할 일 항목 */
+.todo-item {
+    display: flex;
+    justify-content: space-between; /* 좌우 끝으로 버튼과 텍스트 정렬 */
+    align-items: center; /* 버튼과 텍스트를 세로로 중앙 정렬 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+  }
+  
+  /* 버튼 컨테이너 */
+  .todo-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 간격 */
+  }
+  
+  .todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: #888;
+  }
+  
+  .todo-text {
+    flex: 1;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: left;
+    margin-left: 10px;
+  }
+  
+  .todo-text:hover {
+    color: #555;
+  }
+  
+  /* 완료 버튼 */
+  .complete-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
+  .complete-button:hover {
+    background-color: #45a049;
+  }
+  
+/* 삭제 버튼 */
+.delete-button {
+    background: none;
+    border: none;
+    color: #f44336; /* 빨간색 텍스트 */
+    font-size: 0.9rem; /* 버튼 크기 조정 */
+    padding: 5px 15px; /* 버튼 패딩 조정 */
+    border-radius: 5px; /* 약간 둥근 모서리 */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
+  }
+  
+  .delete-button:hover {
+    background-color: #fdd; /* 마우스 오버 시 배경색 */
+    color: #d32f2f; /* 마우스 오버 시 텍스트 색상 */
+
+  }
+  
+  /* 빈 리스트 메시지 */
+  .empty-message {
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+    padding: 20px;
+  }
+  
